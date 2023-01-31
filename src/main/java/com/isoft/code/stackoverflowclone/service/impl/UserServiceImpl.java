@@ -1,26 +1,22 @@
 package com.isoft.code.stackoverflowclone.service.impl;
 
 import com.isoft.code.stackoverflowclone.commons.auth.JwtTokenProvider;
-import com.isoft.code.stackoverflowclone.commons.security.UserDetailsServiceImpl;
+import com.isoft.code.stackoverflowclone.commons.security.UserDetailsImpl;
 import com.isoft.code.stackoverflowclone.dto.SearchUserDto;
 import com.isoft.code.stackoverflowclone.dto.SignInDto;
 import com.isoft.code.stackoverflowclone.dto.SignUpDto;
 import com.isoft.code.stackoverflowclone.dto.UserDto;
 import com.isoft.code.stackoverflowclone.entity.Users;
-import com.isoft.code.stackoverflowclone.exception.CustomException;
 import com.isoft.code.stackoverflowclone.repository.UserRepository;
 import com.isoft.code.stackoverflowclone.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,14 +45,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto signIn(SignInDto signInRequest) {
-        Users user = userRepository.findByEmail(signInRequest.getEmail())
-                .orElseThrow(() -> {
-                    String user_not_found = "User with email " + signInRequest.getEmail() + " not found";
-                    return new CustomException(user_not_found, HttpStatus.NOT_FOUND);
-                });
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
-
+        UserDetailsImpl userDetails = (UserDetailsImpl) authenticate.getPrincipal();
+        Users user = userDetails.getUser();
         return UserDto.builder()
                 .id(user.getId())
                 .displayName(user.getName())
