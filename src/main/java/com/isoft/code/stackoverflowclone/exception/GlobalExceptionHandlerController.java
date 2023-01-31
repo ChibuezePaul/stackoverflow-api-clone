@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.AccessDeniedException;
 //import org.springframework.security.authentication.BadCredentialsException;
 //import org.springframework.security.authentication.LockedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -41,12 +42,12 @@ public class GlobalExceptionHandlerController {
                         .build()
                 );
     }
-//
-//    @ExceptionHandler(BadCredentialsException.class)
-//    public void handleBadCredentialsException(HttpServletResponse res) throws IOException {
-//        res.sendError(HttpStatus.BAD_REQUEST.value(), "Invalid Login Credentials Supplied");
-//    }
-//
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public void handleBadCredentialsException(HttpServletResponse res) throws IOException {
+        res.sendError(HttpStatus.BAD_REQUEST.value(), "Invalid Login Credentials Supplied");
+    }
+
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiResponse> handleDataIntegrityViolationException(HttpServletResponse res, HttpServletRequest req, DataIntegrityViolationException e) throws IOException {
