@@ -7,6 +7,7 @@ import com.isoft.code.stackoverflowclone.entity.Answer;
 import com.isoft.code.stackoverflowclone.entity.Users;
 import com.isoft.code.stackoverflowclone.repository.AnswerRepository;
 import com.isoft.code.stackoverflowclone.service.AnswerService;
+import com.isoft.code.stackoverflowclone.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerRepository answerRepository;
+    private final Utils utils;
 
     @Override
     @Transactional
@@ -36,9 +38,7 @@ public class AnswerServiceImpl implements AnswerService {
     public Answer answerQuestion(AnswerQuestionDto request) {
         Answer answer = new Answer();
         answer.setAnswer(request.getAnswer());
-        Users createdBy = new Users();
-        createdBy.setId(request.getUserId()); //TODO get from token
-        answer.setCreatedBy(createdBy);
+        answer.setCreatedBy(utils.getUserDetails().getUser());
         return answerRepository.save(answer);
     }
 

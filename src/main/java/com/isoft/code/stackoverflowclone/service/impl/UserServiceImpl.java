@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
                     String user_not_found = "User with email " + signInRequest.getEmail() + " not found";
                     return new CustomException(user_not_found, HttpStatus.NOT_FOUND);
                 });
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))));
-//        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
 
         return UserDto.builder()
                 .id(user.getId())

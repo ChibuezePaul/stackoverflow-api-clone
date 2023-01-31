@@ -1,6 +1,5 @@
 package com.isoft.code.stackoverflowclone.commons.security;
 
-import com.isoft.code.stackoverflowclone.dto.SignInDto;
 import com.isoft.code.stackoverflowclone.entity.Users;
 import com.isoft.code.stackoverflowclone.exception.CustomException;
 import com.isoft.code.stackoverflowclone.repository.UserRepository;

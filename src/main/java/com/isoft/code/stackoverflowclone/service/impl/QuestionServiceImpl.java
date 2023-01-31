@@ -12,6 +12,7 @@ import com.isoft.code.stackoverflowclone.exception.CustomException;
 import com.isoft.code.stackoverflowclone.repository.QuestionRepository;
 import com.isoft.code.stackoverflowclone.service.AnswerService;
 import com.isoft.code.stackoverflowclone.service.QuestionService;
+import com.isoft.code.stackoverflowclone.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
     private final AnswerService answerService;
+    private final Utils utils;
 
     @Override
     public QuestionDto askQuestion(AskQuestionDto request) {
@@ -35,9 +37,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.setTitle(request.getTitle());
         question.setDescription(request.getDescription());
         question.setTags(extractTags(request.getTags()));
-        Users createdBy = new Users();
-        createdBy.setId(request.getUserId()); //TODO get from token
-        question.setCreatedBy(createdBy);
+        question.setCreatedBy(utils.getUserDetails().getUser());
         questionRepository.save(question);
         return toQuestionDto(question);
     }

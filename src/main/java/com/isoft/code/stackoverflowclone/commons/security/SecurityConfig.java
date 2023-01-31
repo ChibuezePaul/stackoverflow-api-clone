@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -38,6 +39,8 @@ public class SecurityConfig implements WebSecurityCustomizer {
     private final JwtTokenProvider jwtTokenProvider;
 
     private final AuthEntryPointJwt unauthorizedHandler;
+
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Bean
     public JwtTokenFilter authenticationJwtTokenFilter() {
@@ -56,6 +59,8 @@ public class SecurityConfig implements WebSecurityCustomizer {
                 .antMatchers("/v1/users/login").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated();
+        http.authenticationProvider(authenticationProvider());
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -66,6 +71,15 @@ public class SecurityConfig implements WebSecurityCustomizer {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();

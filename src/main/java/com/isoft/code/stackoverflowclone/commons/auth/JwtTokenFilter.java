@@ -1,8 +1,9 @@
 package com.isoft.code.stackoverflowclone.commons.auth;
 
 import com.isoft.code.stackoverflowclone.exception.CustomException;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -24,7 +25,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String token = jwtTokenProvider.resolveToken(httpServletRequest);
         try {
             if (token != null && jwtTokenProvider.validateToken(token, httpServletRequest)) {
-                Authentication auth = jwtTokenProvider.getAuthentication(token);
+                UsernamePasswordAuthenticationToken auth = jwtTokenProvider.getAuthentication(token);
+                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         } catch (CustomException ex) {
