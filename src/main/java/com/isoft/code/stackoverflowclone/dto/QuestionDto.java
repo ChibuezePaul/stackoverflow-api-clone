@@ -12,7 +12,7 @@ import java.util.List;
 public class QuestionDto {
     private long id;
     private String title;
-    private String desciption;
+    private String description;
     private String createdBy;
     private String tags;
     private List<AnswerDto> answers;

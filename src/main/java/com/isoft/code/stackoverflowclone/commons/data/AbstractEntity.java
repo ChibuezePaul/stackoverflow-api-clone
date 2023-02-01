@@ -8,8 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
     private static final long serialVersionUID = -1635704723140210472L;

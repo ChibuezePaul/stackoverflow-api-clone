@@ -7,7 +7,6 @@ import com.isoft.code.stackoverflowclone.dto.QuestionDto;
 import com.isoft.code.stackoverflowclone.dto.SearchQuestionDto;
 import com.isoft.code.stackoverflowclone.entity.Answer;
 import com.isoft.code.stackoverflowclone.entity.Question;
-import com.isoft.code.stackoverflowclone.entity.Users;
 import com.isoft.code.stackoverflowclone.exception.CustomException;
 import com.isoft.code.stackoverflowclone.repository.QuestionRepository;
 import com.isoft.code.stackoverflowclone.service.AnswerService;
@@ -75,7 +74,7 @@ public class QuestionServiceImpl implements QuestionService {
         return QuestionDto.builder()
                 .id(question.getId())
                 .title(question.getTitle())
-                .desciption(question.getDescription())
+                .description(question.getDescription())
                 .createdBy(question.getCreatedBy().getName())
                 .tags(String.join(",", question.getTags()))
                 .answers(question.getAnswers()

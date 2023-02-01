@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> searchUsers(SearchUserDto request) {
-        return userRepository.findAllByEmailOrNameContainingIgnoreCase(request.getEmail(), request.getName())
+        return userRepository.findAllByEmailIgnoreCaseOrNameContainingIgnoreCase(request.getEmail(), request.getName())
                 .stream()
                 .map(user -> UserDto.builder()
                         .email(user.getEmail())
