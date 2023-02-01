@@ -3,11 +3,8 @@ package com.isoft.code.stackoverflowclone.service.impl.util;
 import com.isoft.code.stackoverflowclone.commons.security.UserDetailsImpl;
 import com.isoft.code.stackoverflowclone.entity.Users;
 import com.isoft.code.stackoverflowclone.repository.AnswerRepository;
-import com.isoft.code.stackoverflowclone.repository.QuestionRepository;
 import com.isoft.code.stackoverflowclone.repository.UserRepository;
 import java.util.Collections;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 @SpringBootTest
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @TestInstance(Lifecycle.PER_METHOD)
 public class TestUtil {
 

@@ -16,8 +16,6 @@ import com.isoft.code.stackoverflowclone.entity.Users;
 import com.isoft.code.stackoverflowclone.service.impl.util.TestUtil;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +33,6 @@ class UserServiceImplTest extends TestUtil {
 
   @MockBean
   private JwtTokenProvider jwtTokenProvider;
-//
-//  @AfterEach
-//  void tearDown() {
-//    userRepository.deleteAll();
-//  }
-
-//  @BeforeEach
-//  void setUp() {
-//    userRepository.deleteAll();
-//  }
 
   @Test
   void signUp() {

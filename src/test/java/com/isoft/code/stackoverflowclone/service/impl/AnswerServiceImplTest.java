@@ -10,7 +10,6 @@ import com.isoft.code.stackoverflowclone.entity.Answer;
 import com.isoft.code.stackoverflowclone.entity.Users;
 import com.isoft.code.stackoverflowclone.service.impl.util.TestUtil;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,11 +17,6 @@ class AnswerServiceImplTest extends TestUtil {
 
   @Autowired
   private AnswerServiceImpl underTest;
-
-  @BeforeEach
-  void setUp() {
-    answerRepository.deleteAll();
-  }
 
   @Test
   void upVoteAnswer_shouldReturnZeroWhenAnswerDoesNotExist() {
